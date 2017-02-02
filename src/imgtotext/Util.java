@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 
 public class Util {
 
-	public static final int SEARCH_AREA_RADIUS = 200;
+	public static final int SEARCH_AREA_RADIUS = 5;
 	
 	/**
 	 * Saves the last time recorded for timer.
@@ -133,6 +133,7 @@ public class Util {
 		frame.getContentPane().setLayout(new FlowLayout());
 		frame.getContentPane().add(new JLabel(new ImageIcon(img)));
 		frame.pack();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 
