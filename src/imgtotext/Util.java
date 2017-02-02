@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 
 public class Util {
 
+	public static final int SEARCH_AREA_RADIUS = 200;
+	
 	/**
 	 * Saves the last time recorded for timer.
 	 */
@@ -35,7 +37,7 @@ public class Util {
 		return duration;
 	}
 
-	public static int[][][] biToRGB(BufferedImage src) {
+	public static RGBImg biToRGB(BufferedImage src) {
 		int[][][] rgb = new int[src.getWidth()][src.getHeight()][3];
 		for (int x = 0; x < src.getWidth(); x++) {
 			for (int y = 0; y < src.getHeight(); y++) {
@@ -44,30 +46,29 @@ public class Util {
 				rgb[x][y][2] = new Color(src.getRGB(x, y)).getBlue();
 			}
 		}
-		return rgb;
+		return new RGBImg("conv.f(bi)", rgb);
 	}
 
-	public static BufferedImage rgbToBI(int[][][] src) {
+	public static BufferedImage rgbToBI(RGBImg rgb) {
+		int[][][] src = rgb.getImg();
 		if (src == null || src.length == 0)
 			throw new IllegalArgumentException("src is empty.");
 
-		int x;
-		int y;
 		BufferedImage bi = new BufferedImage(src.length, src[0].length, BufferedImage.TYPE_INT_RGB);
-		int[] rgb = new int[src.length * src[0].length];
-		for (int i = 0; i < rgb.length; i++) {
-			x = i % src.length;
-			y = i / src.length;
-			int red = src[x][y][0];
-			int green = src[x][y][1];
-			int blue = src[x][y][2];
-			bi.setRGB(x, y, new Color(red, green, blue).getRGB());
+		for (int x = 0; x < src.length; x++) {
+			for (int y = 0; y < src[0].length; y++) {
+				int red = src[x][y][0];
+				int green = src[x][y][1];
+				int blue = src[x][y][2];
+				bi.setRGB(x, y, new Color(red, green, blue).getRGB());
+			}
 		}
 
 		return bi;
 	}
 
-	public static int[][] rgbToBW(int[][][] src) {
+	public static BWImg rgbToBW(RGBImg rgb) {
+		int[][][] src = rgb.getImg();
 		int[][] bw = new int[src.length][src[0].length];
 
 		for (int x = 0; x < src.length; x++) {
@@ -76,10 +77,12 @@ public class Util {
 				bw[x][y] = (src[x][y][0] + src[x][y][1] + src[x][y][2]) / 3;
 			}
 		}
-		return bw;
+
+		return new BWImg("conv.f(RGB)", bw);
 	}
 
-	public static int[][][] bwToRGB(int[][] src) {
+	public static RGBImg bwToRGB(BWImg bw) {
+		int[][] src = bw.getImg();
 		int[][][] rgb = new int[src.length][src[0].length][3];
 
 		for (int x = 0; x < src.length; x++) {
@@ -90,9 +93,13 @@ public class Util {
 			}
 		}
 
-		return rgb;
+		return new RGBImg("conv.f(bw)", rgb);
 	}
 
+	public static BufferedImage bwToBI(BWImg src) {
+		return rgbToBI(bwToRGB(src));
+	}
+	
 	public static boolean save(String name, BufferedImage img) {
 		String path = "images/" + name;
 		if (name.contains("/") || name.contains("\\"))
@@ -110,10 +117,10 @@ public class Util {
 		String path = "images/" + name;
 		if (name.contains("/") || name.contains("\\"))
 			path = name;
-		
+
 		BufferedImage src;
 		try {
-			 src = ImageIO.read(new File(path));
+			src = ImageIO.read(new File(path));
 		} catch (IOException e) {
 			throw new IllegalArgumentException(path + " does not exist.");
 		}
@@ -128,7 +135,7 @@ public class Util {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
+
 	public static String getPathName(String path) {
 		String name = "";
 		for (int i = path.length() - 1; i >= 0; i--) {
@@ -137,7 +144,7 @@ public class Util {
 				break;
 			name = c + name;
 		}
-		
+
 		return name;
 	}
 }

@@ -7,7 +7,7 @@ public class RGBImg implements Img {
 
 	public RGBImg(String desc, int[][][] img) {
 		this.desc = desc;
-		this.img = img;
+		this.img = img.clone();
 	}
 	
 	public String getDesc() {
