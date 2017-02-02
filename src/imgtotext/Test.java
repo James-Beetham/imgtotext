@@ -15,7 +15,11 @@ public class Test {
 		// Img img = new Img("Test", src);
 
 		Source s = new Source("test1.jpg");
-		Util.rgbToBi(s.getSource());
+		Util.save("allTheWay", Util.rgbToBI(s.getSource()));
+		
+		//Util.display(Util.rgbToBI(s.getSource()));
+		
+		
 		
 		// s.mergeLevels(140, 200);
 		// s.mergeLevels(115, 140);
