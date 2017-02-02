@@ -50,14 +50,6 @@ public class Source {
 		System.out.println("Done Constructing!");
 	}
 
-	public Source(String path, int[][] bw, int[][][] source,
-			BufferedImage src) {
-		this.path = path;
-		this.bw = bw;
-		this.source = source;
-		this.src = src;
-	}
-
 	public Source(String path, BufferedImage src) {
 		this.path = path;
 		this.src = src;
