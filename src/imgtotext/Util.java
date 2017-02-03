@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 public class Util {
 
 	public static final int SEARCH_AREA_RADIUS = 5;
+	public static final int VALUE_DIF_TO_NOTICE = 5;
 	
 	/**
 	 * Saves the last time recorded for timer.
@@ -102,8 +103,6 @@ public class Util {
 	
 	public static boolean save(String name, BufferedImage img) {
 		String path = "images/" + name;
-		if (name.contains("/") || name.contains("\\"))
-			path = name;
 		try {
 			ImageIO.write(img, "jpg", new File(path + ".jpg"));
 		} catch (IOException e) {

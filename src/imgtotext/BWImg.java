@@ -23,6 +23,14 @@ public class BWImg implements Img {
 		return img;
 	}
 
+	public int getWidth() {
+		return img.length;
+	}
+	
+	public int getHeight() {
+		return img[0].length;
+	}
+	
 	@Override
 	/**
 	 * Splits the image between two points. Starts from x1, y1 and copies
@@ -164,7 +172,7 @@ public class BWImg implements Img {
 
 	}
 
-	private int[] getLevels() {
+	public int[] getLevels() {
 		int[][] src = img;
 		int[] list = new int[256];
 		for (int x = 0; x < src.length; x++) {
